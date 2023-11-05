@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Quiz</title>
+</head>
+<body>
+
+<header>
+    <h1>Add Quiz</h1>
+</header>
+
+<section>
+    <form action="/save" method="post" th:object="${quizForm}">
+        <label for="quizName">Quiz Name:</label>
+        <input type="text" id="quizName" th:field="*{quizName}" required>
+
+        <label for="selectedTopicId">Select Topic:</label>
+        <select id="selectedTopicId" th:field="*{selectedTopicId}" required>
+            <option th:each="topic : ${topics}" th:value="${topic.id}" th:text="${topic.topicName}"></option>
+        </select>
+
+        <h2>Questions:</h2>
+
+        <div id="questions-container">
+        </div>
+
+        <button type="button" onclick="addQuestion()">Add Question</button>
+        <br><br>
+        <button type="submit">Add Quiz</button>
+    </form>
+</section>
+
+<a th:href="@{/}" class="btn btn-primary">Back to Homepage</a>
+
+<footer>
+    <p>&copy; 2023 Quiz Portal</p>
+</footer>
+
+<script>
+    let questionIndex = 0;
+    addQuestion();
+
+    function addQuestion() {
+        const container = document.getElementById("questions-container");
+
+        const questionDiv = document.createElement("div");
+        questionDiv.classList.add("question");
+
+        const questionLabel = document.createElement("label");
+        questionLabel.textContent = `Question ${questionIndex + 1}:`;
+        const questionInput = document.createElement("input");
+        questionInput.type = "text";
+        questionInput.name = `questions[${questionIndex}].text`;
+        questionInput.required = true;
+
+        questionDiv.appendChild(questionLabel);
+        questionDiv.appendChild(questionInput);
+
+        for (let optionIndex = 0; optionIndex < 3; optionIndex++) {
+            const optionLabel = document.createElement("label");
+            optionLabel.textContent = `Option ${optionIndex + 1}:`;
+            const optionInput = document.createElement("input");
+            optionInput.type = "text";
+            optionInput.name = `questions[${questionIndex}].options[${optionIndex}].text`;
+            optionInput.required = true;
+
+            questionDiv.appendChild(optionLabel);
+            questionDiv.appendChild(optionInput);
+        }
+
+        const correctOptionSelect = document.createElement("select");
+        correctOptionSelect.name = `questions[${questionIndex}].correctOptionIndex`;
+        for (let optionIndex = 0; optionIndex < 3; optionIndex++) {
+            const option = document.createElement("option");
+            option.value = optionIndex;
+            option.textContent = `Option ${optionIndex + 1}`;
+            correctOptionSelect.appendChild(option);
+        }
+
+        questionDiv.appendChild(correctOptionSelect);
+
+        const removeQuestionButton = document.createElement("button");
+        removeQuestionButton.textContent = "Remove Question";
+        removeQuestionButton.type = "button";
+        removeQuestionButton.onclick = function () {
+            container.removeChild(questionDiv);
+            questionIndex--;
+        };
+
+        questionDiv.appendChild(removeQuestionButton);
+
+        container.appendChild(questionDiv);
+        questionIndex++;
+    }
+</script>
+
+
+</body>
+</html>

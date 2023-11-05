@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <style>
+    .pagination {
+      display: inline-block;
+      margin-right: 10px;
+    }
+
+    .pagination a.active {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>All Quizzes</h1>
+</header>
+
+<section>
+  <div>
+    <input type="text" id="searchInput" placeholder="Search quizzes" />
+    <button id="searchButton" onclick="filter()">Search</button>
+  </div>
+  <ul>
+    <li th:each="quiz : ${quizzes.content}">
+      <a th:href="@{/quiz/{id}(id=${quiz.id})}">
+        <h3 th:text="${quiz.quizName}"></h3>
+      </a>
+    </li>
+  </ul>
+</section>
+
+<nav aria-label="Page navigation">
+  <div class="pagination">
+    <span>Page:</span>
+    <span th:each="pageNumber : ${pageNumbers}">
+        <a th:href="@{/quizzes(size=${quizzes.size}, page=${pageNumber})}"
+           th:text="${pageNumber}"
+           th:class="${pageNumber==quizzes.number + 1} ? active"></a>
+    </span>
+  </div>
+</nav>
+
+<a th:href="@{/}" class="btn btn-primary">Back to Homepage</a>
+
+<footer>
+  <p>&copy; 2023 Quiz Portal</p>
+</footer>
+
+<script>
+ function filter() {
+    let searchText = document.getElementById("searchInput").value;
+    window.location.href = "/quizzes/filter=" + encodeURIComponent(searchText);
+  }
+</script>
+
+</body>
+</html>

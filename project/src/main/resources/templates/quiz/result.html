@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <!-- Add your CSS styles here -->
+  <style>
+    .pagination {
+      display: inline-block;
+      margin-right: 10px;
+    }
+    .pagination a.active {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Quiz Result</h1>
+</header>
+
+<section>
+  <h2>Your Quiz Results:</h2>
+  <ul>
+    <li th:each="score : ${scores}">
+      <p th:text="'Quiz: ' + ${score.quiz.quizName}"></p>
+      <p th:text="'Correct Answers: ' + ${score.score}"></p>
+    </li>
+  </ul>
+</section>
+
+<nav aria-label="Page navigation">
+  <div class="pagination">
+    <span>Page:</span>
+    <span th:each="pageNumber : ${pageNumbers}">
+        <a th:href="@{/results(size=${scores.size}, page=${pageNumber})}"
+           th:text="${pageNumber}"
+           th:class="${pageNumber==scores.number + 1} ? active"></a>
+    </span>
+  </div>
+</nav>
+
+<a th:href="@{/}" class="btn btn-primary">Back to Homepage</a>
+
+<footer>
+  <p>&copy; 2023 Quiz Portal</p>
+</footer>
+
+
+</body>
+</html>

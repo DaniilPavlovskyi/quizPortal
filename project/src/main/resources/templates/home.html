@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz Portal</title>
+</head>
+<body>
+<header>
+    <h1>Welcome to the Quiz Portal</h1>
+</header>
+
+<nav>
+    <ul>
+        <li><a th:href="@{/quizzes}">Browse Quizzes</a></li>
+        <li><a th:href="@{/create-quiz}">Create Quiz</a></li>
+        <li><a th:href="@{/results}">Your Results</a></li>
+    </ul>
+</nav>
+
+<section>
+    <h2>Featured Quizzes</h2>
+    <ul>
+        <li th:each="quiz : ${featuredQuizzes}">
+            <a th:href="@{/quiz/{id}(id=${quiz.id})}" th:text="${quiz.quizName}"></a>
+        </li>
+    </ul>
+</section>
+<br><br>
+<form action="#" th:action="@{/logout}" method="post">
+    <input type="submit" value="Logout">
+</form>
+<footer>
+    <p>&copy; 2023 Quiz Portal</p>
+</footer>
+</body>
+</html>

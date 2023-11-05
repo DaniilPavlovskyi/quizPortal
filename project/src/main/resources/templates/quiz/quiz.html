@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<body>
+<header>
+    <h1>Quiz: <span th:text="${quiz.quizName}"></span></h1>
+</header>
+
+<section>
+    <h2>Questions:</h2>
+    <form th:action="@{/quiz/submitAnswers}" method="post" onsubmit="
+    function prepareSelectedOptions() {
+    let selectedOptions = document.querySelectorAll('input[type=radio]:checked');
+    let selectedOptionIds = [];
+    selectedOptions.forEach(function(option) {
+      selectedOptionIds.push(option.value);
+    });
+    let formAction = document.querySelector('form').action;
+    formAction += '?selectedOptions=' + selectedOptionIds.join(',');
+    document.querySelector('form').action = formAction;
+  } prepareSelectedOptions()">
+        <ul>
+            <li th:each="question, questionIndex : ${questionList}">
+                <h3 th:text="${question.text}"></h3>
+                <ul>
+                    <li th:each="option : ${question.optionList}">
+                        <label>
+                            <input type="radio"
+                                   th:id="${'option-' + option.id}"
+                                   th:name="${'selectedOptions[' + questionIndex.index + ']'}"
+                                   th:value="${option.id}"/>
+                            <span th:text="${option.text}"></span>
+                        </label>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+        <input type="hidden" name="quizId" th:value="${quiz.id}"/>
+
+        <button type="submit">Submit Answers</button>
+    </form>
+</section>
+<a th:href="@{/}" class="btn btn-primary">Back to Homepage</a>
+<footer>
+    <p>&copy; 2023 Quiz Portal</p>
+</footer>
+</body>
+</html>
