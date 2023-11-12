@@ -16,6 +16,10 @@ import javax.sql.DataSource;
 @Configuration
 public class SecurityConfig {
 
+//    @Bean
+//    public PasswordEncoder passwordEncoder() {
+//        return new BCryptPasswordEncoder();
+//    }
     @Bean
     public UserDetailsManager userDetailsManager(DataSource dataSource){
         JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
@@ -31,8 +35,13 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(
                 c -> c
-                        .requestMatchers(HttpMethod.GET,"**").hasRole("USER")
-                        .requestMatchers(HttpMethod.POST, "**").hasRole("USER")
+                        .requestMatchers(HttpMethod.GET,"/registration").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/registration/save").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/showLoginPage").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/authenticateUser").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/").hasRole("USER")
+//                        .requestMatchers(HttpMethod.GET,"**").hasRole("USER")
+//                        .requestMatchers(HttpMethod.POST, "**").hasRole("USER")
                 )
                 .formLogin(
                         form -> form

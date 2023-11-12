@@ -12,6 +12,8 @@ public class User {
     @Id
     @Column(name = "username")
     private String username;
+    @Column(name = "password")
+    private String password;
 
     @Column(name = "enabled")
     private int enabled;
@@ -23,8 +25,9 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Score> scoreList;
 
-    public User(String username, int enabled) {
+    public User(String username, String password, int enabled) {
         this.username = username;
+        this.password = password;
         this.enabled = enabled;
     }
 
@@ -81,4 +84,11 @@ public class User {
     }
 
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }
