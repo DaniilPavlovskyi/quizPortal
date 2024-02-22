@@ -3,6 +3,7 @@ Project Description:
 
 This project is a web application developed using Java with the Spring Framework. It serves as a platform for creating, taking, and managing quizzes on various topics. Users can register, log in, and participate in quizzes, as well as view their scores and results.
 
+----------------------------------------------------------------------
 
 Key Features:
 
@@ -18,6 +19,7 @@ Quiz Filtering: Allows users to filter quizzes by name for easier navigation.
 
 Access Control: Implements access control to restrict unauthorized access and provide a customized access-denied page.
 
+----------------------------------------------------------------------
 
 Technologies Used:
 
