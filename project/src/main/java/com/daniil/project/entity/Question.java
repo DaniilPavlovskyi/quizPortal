@@ -2,12 +2,16 @@ package com.daniil.project.entity;
 
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "quiz_questions")
+@Getter @Setter @NoArgsConstructor
 public class Question {
 
     @Id
@@ -38,47 +42,12 @@ public class Question {
         this.text = text;
     }
 
-    public Question() {
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public List<Option> getOptionList() {
-        return optionList;
-    }
-
-    public void setOptionList(List<Option> optionList) {
-        this.optionList = optionList;
-    }
-
     public void addOption(Option option) {
         if (this.optionList == null) {
             optionList = new ArrayList<>();
         }
 
         optionList.add(option);
-    }
-
-    public List<Response> getResponseList() {
-        return responseList;
-    }
-
-    public void setResponseList(List<Response> responseList) {
-        this.responseList = responseList;
     }
 
     public void addResponse(Response response) {
@@ -88,14 +57,5 @@ public class Question {
 
         responseList.add(response);
     }
-
-    public Quiz getQuiz() {
-        return quiz;
-    }
-
-    public void setQuiz(Quiz quiz) {
-        this.quiz = quiz;
-    }
-
 
 }

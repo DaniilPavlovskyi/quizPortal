@@ -1,12 +1,17 @@
 package com.daniil.project.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "users")
+@Getter @Setter
+@NoArgsConstructor
 public class User {
 
     @Id
@@ -31,48 +36,11 @@ public class User {
         this.enabled = enabled;
     }
 
-
-    public User() {
-    }
-
-
     public void addResponse(Response response) {
         if (responseList == null) {
             responseList = new ArrayList<>();
         }
         responseList.add(response);
-    }
-
-    public List<Response> getResponseList() {
-        return responseList;
-    }
-
-    public void setResponseList(List<Response> responseList) {
-        this.responseList = responseList;
-    }
-
-    public int getEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(int enabled) {
-        this.enabled = enabled;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public List<Score> getScoreList() {
-        return scoreList;
-    }
-
-    public void setScoreList(List<Score> scoreList) {
-        this.scoreList = scoreList;
     }
 
     public void addScore(Score score){
@@ -81,14 +49,5 @@ public class User {
         }
 
         scoreList.add(score);
-    }
-
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 }

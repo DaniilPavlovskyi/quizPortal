@@ -2,9 +2,12 @@ package com.daniil.project.entity;
 
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "user_responses")
+@Getter @Setter
 public class Response {
 
     @Id
@@ -38,38 +41,5 @@ public class Response {
     })
     @JoinColumn(name = "question_id")
     private Question question;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Option getOption() {
-        return option;
-    }
-
-    public void setOption(Option option) {
-        this.option = option;
-    }
-
-    public Question getQuestion() {
-        return question;
-    }
-
-    public void setQuestion(Question question) {
-        this.question = question;
-    }
-
 
 }

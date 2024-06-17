@@ -15,11 +15,6 @@ import javax.sql.DataSource;
 
 @Configuration
 public class SecurityConfig {
-
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
     @Bean
     public UserDetailsManager userDetailsManager(DataSource dataSource){
         JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
@@ -33,30 +28,21 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(
-                c -> c
-                        .requestMatchers(HttpMethod.GET,"/registration").permitAll()
-                        .requestMatchers(HttpMethod.POST,"/registration/save").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/showLoginPage").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/authenticateUser").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/").hasRole("USER")
-//                        .requestMatchers(HttpMethod.GET,"**").hasRole("USER")
-//                        .requestMatchers(HttpMethod.POST, "**").hasRole("USER")
+        http.authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers(HttpMethod.GET, "/registration", "/api/global-score", "/showLoginPage", "/authenticateUser").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/", "/quiz**", "/results**", "/quizzes**").hasRole("USER")
+                        .requestMatchers(HttpMethod.GET, "/create-quiz").hasRole("USER")
+                        .requestMatchers(HttpMethod.POST, "/save").hasRole("USER")
+                        .anyRequest().authenticated()
                 )
-                .formLogin(
-                        form -> form
-                                .loginPage("/showLoginPage")
-                                .loginProcessingUrl("/authenticateUser")
-                                .permitAll()
+                .formLogin(form -> form
+                        .loginPage("/showLoginPage")
+                        .loginProcessingUrl("/authenticateUser")
+                        .permitAll()
                 )
-                .logout(
-                        LogoutConfigurer::permitAll
-                )
-                .exceptionHandling(
-                        conf -> conf.accessDeniedPage("/access-denied")
-                );
-        http.httpBasic(Customizer.withDefaults());
-        http.csrf(AbstractHttpConfigurer::disable);
+                .logout(LogoutConfigurer::permitAll)
+                .exceptionHandling(conf -> conf.accessDeniedPage("/access-denied"))
+                .csrf(AbstractHttpConfigurer::disable);
         return http.build();
     }
 }

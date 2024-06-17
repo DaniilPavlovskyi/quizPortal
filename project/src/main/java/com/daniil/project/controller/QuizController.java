@@ -1,6 +1,7 @@
 package com.daniil.project.controller;
 
 import com.daniil.project.entity.*;
+import com.daniil.project.form.QuestionForm;
 import com.daniil.project.form.QuizForm;
 import com.daniil.project.service.question.QuestionService;
 import com.daniil.project.service.quiz.QuizService;
@@ -10,6 +11,8 @@ import com.daniil.project.service.user.UserService;
 import com.daniil.project.utility.Utility;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -136,25 +139,30 @@ public class QuizController {
         List<Question> questionList = new ArrayList<>();
         for (var question : quizForm.getQuestions()) {
             if (question.getText() != null) {
-                Question questionToAdd = new Question();
-                questionToAdd.setQuiz(quiz);
-                questionToAdd.setText(question.getText());
-                int index = 0;
-                for (var option : question.getOptions()) {
-                    Option optionToAdd = new Option();
-                    optionToAdd.setText(option.getText());
-                    if (index == question.getCorrectOptionIndex())
-                        optionToAdd.setIsCorrect(1);
-                    optionToAdd.setQuestion(questionToAdd);
-                    questionToAdd.addOption(optionToAdd);
-                    index++;
-                }
+                Question questionToAdd = getQuestion(question, quiz);
                 questionList.add(questionToAdd);
             }
         }
         quiz.setQuestionList(questionList);
         quizService.save(quiz);
         return "redirect:/";
+    }
+
+    private Question getQuestion(QuestionForm question, Quiz quiz) {
+        Question questionToAdd = new Question();
+        questionToAdd.setQuiz(quiz);
+        questionToAdd.setText(question.getText());
+        int index = 0;
+        for (var option : question.getOptions()) {
+            Option optionToAdd = new Option();
+            optionToAdd.setText(option.getText());
+            if (index == question.getCorrectOptionIndex())
+                optionToAdd.setIsCorrect(1);
+            optionToAdd.setQuestion(questionToAdd);
+            questionToAdd.addOption(optionToAdd);
+            index++;
+        }
+        return questionToAdd;
     }
 
 }

@@ -9,4 +9,6 @@ public interface ScoreService {
     Page<Score> getUserScoresForQuiz(String username, int id, int page, int size);
 
     Page<Score> getUserScores(String username, int page, int size);
+
+    int getTotalScore();
 }

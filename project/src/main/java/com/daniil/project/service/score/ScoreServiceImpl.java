@@ -31,4 +31,9 @@ public class ScoreServiceImpl implements ScoreService{
         PageRequest pageable = PageRequest.of(page, size);
         return scoreDAO.findAllByUserUsername(username, pageable);
     }
+
+    @Override
+    public int getTotalScore() {
+        return scoreDAO.findAll().stream().map(Score::getScore).reduce(Integer::sum).orElse(0);
+    }
 }
