@@ -21,3 +21,5 @@ Technologies Used:
 - Spring Security: Provides authentication, authorization, and other security features for Spring applications.
 - Spring Data JPA: Simplifies data access and persistence using the Java Persistence API (JPA) with Spring applications.
 - Thymeleaf: Server-side Java template engine for web and standalone environments.
+- Lombok
+- JUnit/Mockito
